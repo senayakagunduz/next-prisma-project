@@ -1,17 +1,17 @@
-import EmptyList from '@/components/global/EmptyList';
+// import EmptyList from '@/components/global/EmptyList';
 // import { deleteProductAction, fetchAdminProducts } from '@/utils/actions';
-import Link from 'next/link';
+// import Link from 'next/link';
 
-import { formatCurrency } from '@/utils/format';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+// import { formatCurrency } from '@/utils/format';
+// import {
+//   Table,
+//   TableBody,
+//   TableCaption,
+//   TableCell,
+//   TableHead,
+//   TableHeader,
+//   TableRow,
+// } from '@/components/ui/table';
 // import { IconButton } from '@/components/form/Buttons';
 // import FormContainer from '@/components/form/FormContainer';
 
@@ -63,7 +63,8 @@ async function AdminProductsPage() {
   );
 }
 
-function DeleteProduct({ productId }: { productId: string }) {
+//function DeleteProduct({ productId }: { productId: string }) {
+  function DeleteProduct() {
   //const deleteProduct = deleteProductAction.bind(null, { productId });
   return (
     <>

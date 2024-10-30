@@ -1,7 +1,8 @@
 
 
-async function EditProductPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+//async function EditProductPage({ params }: { params: { id: string } }) {
+  async function EditProductPage() {
+ // const { id } = params;
  // const product = await fetchAdminProductDetails(id);
   //const { name, company, description, featured, price } = product;
   return (
