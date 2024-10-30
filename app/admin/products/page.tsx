@@ -64,17 +64,17 @@ async function AdminProductsPage() {
 }
 
 //function DeleteProduct({ productId }: { productId: string }) {
-  function DeleteProduct() {
-  //const deleteProduct = deleteProductAction.bind(null, { productId });
-  return (
-    <>
-      <h1>dfdf</h1>
-    </>
+//   function DeleteProduct() {
+// const deleteProduct = deleteProductAction.bind(null, { productId });
+//   return (
+//     <>
+//       <h1>dfdf</h1>
+//     </>
     // <FormContainer action={deleteProduct}>
     //   <IconButton actionType='delete' />
     // </FormContainer>
 
-  );
-}
+//   );
+// }
 
-export default AdminProductsPage;
+// export default AdminProductsPage;
