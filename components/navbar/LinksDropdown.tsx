@@ -12,11 +12,13 @@ import { Button } from "../ui/button";
 import { links } from "@/utils/links";
 import UserIcon from "./UserIcon";
 import SignOutLink from "./SignOutLink";
+import { auth } from "@clerk/nextjs/server";
+import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
 
 
 const LinksDropdown = () => {
- //const { userId } = auth();
- // const isAdmin = userId === process.env.ADMIN_USER_ID;
+const { userId } = auth();
+ const isAdmin = userId === process.env.ADMIN_USER_ID;
   return (
     <DropdownMenu>
     <DropdownMenuTrigger asChild>
@@ -26,22 +28,22 @@ const LinksDropdown = () => {
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent className='w-40' align='start' sideOffset={10}>
-      {/* <SignedOut> */}
+      <SignedOut>
         <DropdownMenuItem>
-          {/* <SignInButton mode='modal'> */}
+          <SignInButton mode='modal'>
             <button className='w-full text-left'>Login</button>
-          {/* </SignInButton> */}
+          </SignInButton>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          {/* <SignUpButton mode='modal'> */}
+          <SignUpButton mode='modal'>
             <button className='w-full text-left'>Register</button>
-          {/* </SignUpButton> */}
+          </SignUpButton>
         </DropdownMenuItem>
-      {/* </SignedOut> */}
-      {/* <SignedIn>rm -rf node_modules package-lock.json*/}
+      </SignedOut>
+      <SignedIn>
 
-        {/* {links.map((link) => { 
+        {links.map((link) => { 
           if (link.label === 'dashboard' && !isAdmin) return null;
           return (
             <DropdownMenuItem key={link.href}>
@@ -50,12 +52,12 @@ const LinksDropdown = () => {
               </Link>
             </DropdownMenuItem>
           );
-        })} */}
+        })}
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <SignOutLink />
         </DropdownMenuItem>
-      {/* </SignedIn> */}
+      </SignedIn>
     </DropdownMenuContent>
   </DropdownMenu>
   );
