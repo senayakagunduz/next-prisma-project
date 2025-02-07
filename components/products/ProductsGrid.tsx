@@ -36,7 +36,9 @@ function ProductsGrid({ products }: { products: Product[] }) {
                 </CardContent>
               </Card>
             </Link>
+            {/* her tıkladığında detay sayfasına gtmemesi için Link in dışına aldım */}
             <div className="absolute top-7 right-7 z-5">
+              {/* bu dive absolute verdim, çünkü parent div relative, kalbi cartın sol üst köşesine yerleştiricem */}
                 <FavoriteToggleButton productId={productId}/>
             </div>
           </article>

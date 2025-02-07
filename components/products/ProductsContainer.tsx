@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import ProductsList from './ProductsList';
-import { fetchAllProducts } from '@/lib/actions';
+import { fetchAllProducts } from '@/utils/actions';
 
 async function ProductsContainer({
   layout,

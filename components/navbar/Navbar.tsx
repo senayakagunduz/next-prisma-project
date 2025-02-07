@@ -1,26 +1,23 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Container from "../global/Container";
 import Logo from "./Logo";
 import NavSearch from "./NavSearch";
 import CartButton from "./CartButton";
 import LinksDropdown from "./LinksDropdown";
-import LightMode from "./LightMode";
-import Darkmode from "./DarkMode";
-import { Suspense } from "react";
+import DarkMode from './DarkMode';
 
 function Navbar() {
   return (
     <nav className="border-b">
-      <Container className="flex flex-col sm:flex-row sm:justify-between sm:items-center flex-wrap py-8 ">
+      <Container className='flex flex-col sm:flex-row sm:justify-between sm:items-center flex-wrap py-8 gap-4'>
         <Logo />
-        {/*Suspence ile NavSearch bileşeni verileri alana ya da yüklenene kadar "Loading..." mesajı gösterilecektir. */}
-        <Suspense fallback={<div>Loading...</div>}> 
+          {/*Suspence ile NavSearch bileşeni verileri alana ya da yüklenene kadar "Loading..." mesajı gösterilecektir. */}
+        <Suspense>
           <NavSearch />
         </Suspense>
-        <div className="flex gap-4 items-center">
+        <div className='flex gap-4 items-center'>
           <CartButton />
-          <Darkmode />
-          <LightMode />
+          <DarkMode />
           <LinksDropdown />
         </div>
       </Container>
