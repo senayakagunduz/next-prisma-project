@@ -6,7 +6,13 @@ import AddToCart from '@/components/single-product/AddToCart';
 import ProductRating from '@/components/single-product/ProductRating';
 import { fetchSingleProduct } from '@/utils/actions';
 
-export default async function SingleProductPage({ params }: { params: { id: string } }) {
+type SingleProductPageProps = {
+  params: {
+    id: string;
+  };
+};
+
+async function SingleProductPage({ params }: SingleProductPageProps) {
   const product = await fetchSingleProduct(params.id);
 
   if (!product) {
@@ -49,3 +55,4 @@ export default async function SingleProductPage({ params }: { params: { id: stri
     </section> 
   );
 }
+export default SingleProductPage;
