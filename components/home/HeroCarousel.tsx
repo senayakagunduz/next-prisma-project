@@ -8,6 +8,7 @@ import hero3 from '@/public/images/hero3.jpg';
 import hero4 from '@/public/images/hero4.jpg';
 
 const carouselImages = [hero1, hero2, hero3, hero4];
+
 function HeroCarousel() {
   return (
     <div className='hidden lg:block'>
