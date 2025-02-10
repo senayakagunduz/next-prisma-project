@@ -5,8 +5,12 @@ import FavoriteToggleButton from '@/components/products/FavoriteToggleButton';
 import AddToCart from '@/components/single-product/AddToCart';
 import ProductRating from '@/components/single-product/ProductRating';
 import { fetchSingleProduct } from '@/utils/actions';
+import { GetServerSidePropsContext } from 'next';
 
-async function SingleProductPage({ params }: { params: { id: string } }) {
+async function SingleProductPage({ params }: GetServerSidePropsContext<{ id: string }>) {
+  if (!params) {
+    return <div>Product not found</div>;
+  }
   const product = await fetchSingleProduct(params.id);
   const { name, image, company, description, price } = product;
   const dollarsAmount = formatCurrency(price);
