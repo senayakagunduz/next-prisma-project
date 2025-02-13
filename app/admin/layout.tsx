@@ -1,7 +1,7 @@
 import { Separator } from '@/components/ui/separator';
 import Sidebar from './Sidebar';
 
-function DashboardLayout({ children }: { children:React.ReactNode  }) {
+export default function DashboardLayout({ children }: { children:React.ReactNode  }) {
   return (
     <>
       <h2 className='text-2xl pl-4'>Dashboard</h2>
@@ -15,4 +15,4 @@ function DashboardLayout({ children }: { children:React.ReactNode  }) {
     </>
   );
 }
-export default DashboardLayout;
+

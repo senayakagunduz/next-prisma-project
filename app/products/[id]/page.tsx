@@ -6,19 +6,12 @@ import AddToCart from '@/components/single-product/AddToCart';
 import ProductRating from '@/components/single-product/ProductRating';
 import { fetchSingleProduct } from '@/utils/actions';
 
-type SingleProductPageProps = {
-  params: {
-    id: string;
-  };
-};
-
-async function SingleProductPage({ params }: SingleProductPageProps) {
-  const product = await fetchSingleProduct(params.id);
-
-  if (!product) {
+async function SingleProductPage({ params }: { params: { id: string } }) {
+  // Eğer params varsa ve asenkron işlem yapılıyorsa, onu senkronize edin
+  if (!params || !params.id) {
     return <div>Product not found</div>;
   }
-
+  const product = await fetchSingleProduct(params.id);
   const { name, image, company, description, price } = product;
   const dollarsAmount = formatCurrency(price);
 
