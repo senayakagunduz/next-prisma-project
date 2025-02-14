@@ -2,8 +2,8 @@
 import db from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { productSchema, validateWidthZodSchema } from './schemas';
-import { deleteImage } from './supabase';
+import { imageSchema, productSchema, validateWidthZodSchema } from './schemas';
+import { deleteImage, uploadImage } from './supabase';
 import { revalidatePath } from 'next/cache';
 
 export const getAuthUser = async () => {
@@ -59,17 +59,23 @@ export const createProductAction = async (
 
     try {
         const rawData=Object.fromEntries(formData.entries());
+        const file=formData.get('image') as File;
         const validatedFields = validateWidthZodSchema(productSchema,rawData);
+        const validatedFile=validateWidthZodSchema(imageSchema,{image:file});
+        const fullPath=await uploadImage(validatedFile.image);
+       
        
         await db.product.create({
             data:{
-                ...validatedFields,image:'/images/product-3.jpg',clerkId:user.id,
+                ...validatedFields,
+                image:fullPath,
+                clerkId:user.id,
             }
         })
-        return { message: 'product created' };
     } catch (error) {
         return renderError(error);
     }
+    redirect('/admin/products');
 };
 export const deleteProductAction = async (prevState: { productId: string }) => {
     const { productId } = prevState;
