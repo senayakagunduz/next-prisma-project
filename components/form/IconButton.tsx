@@ -4,7 +4,7 @@ import { useFormStatus } from "react-dom";
 import { LuPenSquare, LuTrash2 } from "react-icons/lu";
 import { Button } from "../ui/button";
 
-type actionType = 'edit' | 'delete';
+type actionType = "edit" | "delete" | "pending";
 export const IconButton = ({ actionType }: { actionType: actionType }) => {
   const { pending } = useFormStatus();
 
@@ -14,9 +14,8 @@ export const IconButton = ({ actionType }: { actionType: actionType }) => {
         return <LuPenSquare />;
       case 'delete':
         return <LuTrash2 />;
-      default:
-        const never: never = actionType;
-        throw new Error(`Invalid action type: ${never}`);
+      case 'pending':
+        return <ReloadIcon className='animate-spin' />;
     }
   };
 

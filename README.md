@@ -5,7 +5,6 @@ Eğer kullanıcı yazmaya devam ederse, önceki çağrıyı iptal eder ve sadece
 ✅ Kullanıcı yazmayı bırakana kadar fonksiyon çağrılmaz.
 ✅ Gereksiz API isteklerini önler ve performansı artırır.
 
-
 👇 Debounce olmadan: (Her harf için çağrılır)
 User types: "iphone"
 Requests sent: "i" → "ip" → "iph" → "ipho" → "iphone"
@@ -23,7 +22,7 @@ Request sent: "iphone" (300ms bekledikten sonra)
     params.delete('search');
   }
   replace(`/products?${params.toString()}`);
-}, 300); 
+}, 300);
 
 👇 Object.fromEntries() özellikle form verilerini işlerken çok kullanışlı bir JavaScript metodudur.
 // FormData entries() metodu aşağıdaki gibi bir yapı döndürür:
@@ -81,7 +80,7 @@ export const createRequestAction = async (
   try {
     // Form verilerini objeye çevirme
     const rawFormData = Object.fromEntries(formData.entries());
-    
+
     // Zod ile validasyon
     const validatedFields = requestFormSchema.safeParse(rawFormData);
 
@@ -263,3 +262,68 @@ Server Actions'da authentication bilgisine doğrudan erişebilirsiniz
 API'lerde genellikle token kontrolü manuel yapılır
 Server Actions'ın en büyük avantajı, client ve server arasındaki iletişimi basitleştirmesi ve Next.js'in built-in özelliklerinden faydalanabilmesidir. Ancak bazı durumlarda (örneğin harici servislerle entegrasyon) geleneksel API endpoints hala gerekli olabilir.
 
+--------------RevalidatePath nedir?--------------------
+ revalidatePath, 1-önbelleğe alınmış (cached) verileri manuel olarak güncellemek için kullanılır.
+ Örneğin, bir form ile yeni veri eklendiğinde veya bir API isteği sonrası veriyi güncellemek istediğinizde, sayfanın güncellenmesini sağlar.
+ yada 
+ 2-Client Component İçinden Kullanım (Server Action ile)
+Client tarafında butona basıldığında belirli bir sayfanın yenilenmesini sağlamak için kullanabilirsiniz:
+
+Ne Zaman Kullanılır?
+Önbelleğe alınan sayfaları veya verileri manuel olarak güncellemek için
+API'den gelen veriler statik olarak önbelleğe alınmışsa ve güncellenmesi gerekiyorsa
+Kullanıcı bir form gönderdiğinde veya CRUD işlemlerinde (Create, Update, Delete)
+ISR (Incremental Static Regeneration) mekanizmasını manuel olarak tetiklemek için
+
+ export const deleteProductAction = async (prevState: { productId: string }) => {
+    const { productId } = prevState;
+    await getAdminUser();
+    try {
+      const product = await db.product.delete({
+        where: {
+          id: productId,
+        },
+      });
+      await deleteImage(product.image);
+      revalidatePath('/admin/products');}} burada admin/products ı güncelliyoruz
+--------------supabase.ts---------------------
+Supabase ile ilgili işlemler merkezi bir dosyada toplanır.
+
+supabase.ts genellikle Supabase bağlantısı, kimlik doğrulama, veritabanı sorguları ve storage işlemleri gibi Supabase'e özel işlevlerin yer aldığı bir dosyadır.
+deleteImage fonksiyonu da Supabase Storage ile ilgili bir işlem yaptığı için burada olması mantıklıdır.
+
+-------------------------------------------------------
+
+const url = "https://xyz.supabase.co/storage/v1/object/public/bucketName/folder/image.png";
+const imageName = url.split('/').pop();
+url.split('/') şunu üretir:
+[
+  "https:", "", "xyz.supabase.co", "storage", "v1", "object", "public", 
+  "bucketName", "folder", "image.png"
+]
+.pop() son elemanı alır:
+
+"image.png"
+
+-------------------------------------------------------------------
+findUnique ve findMany, Prisma ORM'de veritabanı sorgularını yapmak için kullanılan iki farklı metottur.
+
+
+findUnique->Tek bir kayıt (satır) getirir.
+where şartı ile belirtilen koşula göre eşleşen bir kayıt varsa döndürür, yoksa null döndürür.
+Genellikle birincil anahtar (id) veya UNIQUE olarak tanımlanmış alanlar ile kullanılır.
+
+const product = await db.product.findUnique({
+  where: {
+    id: productId,
+  },
+});
+
+findMany->const products = await db.product.findMany({
+  where: {
+    category: "electronics",
+  },
+});
+Birden fazla kayıt getirir.
+Şartlara uyan tüm kayıtları dizi (array) olarak döndürür.
+Eğer hiçbir kayıt bulunmazsa boş bir dizi ([]) döner.
