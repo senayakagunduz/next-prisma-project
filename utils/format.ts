@@ -5,3 +5,11 @@ export const formatCurrency = (amount: number | null) => {
       currency: 'USD',
     }).format(value);
   };
+
+export const formatDate = (date: Date | string | number) => {
+  return new Date(date).toLocaleDateString('tr-TR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  });
+};

@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import Container from "@/components/global/Container";
 import {ClerkProvider} from '@clerk/nextjs'
+import { siteMetadata } from "@/lib/siteMetadata";
+import { $ } from "@faker-js/faker/dist/airline-WjISwexU";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,9 +19,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Next Store Frontend",
-  description: "Anifty store built Next.js",
-};
+  metadataBase:new URL(siteMetadata.siteUrl),
+}
 
 export default function RootLayout({
   children,
