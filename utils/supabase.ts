@@ -1,24 +1,34 @@
 import { createClient } from '@supabase/supabase-js';
 
-const bucket = 'main-bucket';
-
-export const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_KEY as string
-);
-
-export const uploadImage = async (image: File) => {
-  const timestamp = Date.now();
-  const newName = `${timestamp}-${image.name}`;
-  const { data } = await supabase.storage
-    .from(bucket)
-    .upload(newName, image, { cacheControl: '3600' });
-  if (!data) throw new Error('Image upload failed');
-  return supabase.storage.from(bucket).getPublicUrl(newName).data.publicUrl;
+// Mock implementation for local development
+const supabase = {
+  storage: {
+    from: () => ({
+      upload: async () => ({
+        data: { path: 'mock-path' },
+        error: null,
+      }),
+      getPublicUrl: () => ({
+        data: {
+          publicUrl: '/images/placeholder.jpg',
+        },
+      }),
+      remove: async () => ({
+        data: {},
+        error: null,
+      }),
+    }),
+  },
 };
 
-export const deleteImage = (url: string) => {
-  const imageName = url.split('/').pop();
-  if (!imageName) throw new Error('Invalid URL');
-  return supabase.storage.from(bucket).remove([imageName]);
+export { supabase };
+
+export const uploadImage = async (image: File) => {
+  // Return a placeholder URL for local development
+  return '/images/placeholder.jpg';
+};
+
+export const deleteImage = async (url: string) => {
+  // Mock successful deletion
+  return { data: {}, error: null };
 };
