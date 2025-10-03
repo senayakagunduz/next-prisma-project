@@ -10,11 +10,12 @@ function Sidebar() {
   return (
     <aside>
       {adminLinks.map((link) => {
-        const isActivePage = pathname === link.href;
+        // Eğer mevcut path, linkin href'ini içeriyorsa aktif say
+        const isActivePage = pathname.startsWith(link.href);
         const variant = isActivePage ? 'default' : 'ghost';
         return (
           <Button
-            key={link.href} // key prop'u burada tanımlanıyor
+            key={link.href}
             asChild
             className='w-full mb-2 capitalize font-normal justify-start'
             variant={variant}

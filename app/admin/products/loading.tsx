@@ -1,9 +1,13 @@
 'use client';
 
+import LoadingTable from "@/components/global/LoadingTable";
+
 //import LoadingTable from '@/components/global/LoadingTable';
 
 function loading() {
  // return <LoadingTable />;
- return <h1>Loading..</h1>
+ return (
+    <LoadingTable rows={10}/>
+ )
 }
 export default loading;

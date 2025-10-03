@@ -1,37 +1,45 @@
+// middleware.ts - Son kontrol
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import { NextResponse } from 'next/server';
 
-const isPublicRoute = createRouteMatcher(['/', '/products(.*)', '/about', '/api/(.*)']);
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/products(.*)',
+  '/about',
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+]);
+
 const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 
 export default clerkMiddleware(async (auth, req) => {
-    const { userId } = auth();
-    const isAdminUser = userId === process.env.ADMIN_USER_ID;
+  const { userId } = await auth();
 
-    // Allow API routes and public routes
-    if (isPublicRoute(req)) {
-        return NextResponse.next();
-    }
+  if (isPublicRoute(req)) {
+    return;
+  }
 
-    // Protect admin routes
-    if (isAdminRoute(req)) {
-        if (!isAdminUser) {
-            return NextResponse.redirect(new URL('/', req.url));
-        }
-        return NextResponse.next();
-    }
-
-    // For all other routes, require authentication
+  if (isAdminRoute(req)) {
     if (!userId) {
-        return NextResponse.redirect(new URL('/sign-in', req.url));
+      const signInUrl = new URL('/sign-in', req.url);
+      signInUrl.searchParams.set('redirect_url', req.nextUrl.pathname);
+      return Response.redirect(signInUrl);
     }
 
-    return NextResponse.next();
+    // ⭐ EN ÖNEMLİ KISIM: Admin kontrolü
+    if (userId !== process.env.ADMIN_USER_ID) {
+      console.log('❌ Not admin:', userId, 'vs', process.env.ADMIN_USER_ID);
+      return Response.redirect(new URL('/', req.url));
+    }
+  }
+
+  if (!userId) {
+    return Response.redirect(new URL('/sign-in', req.url));
+  }
 });
 
 export const config = {
-    matcher: [
-        '/((?!.+\\.[\\w]+$|_next).*)',
-        '/(api|trpc)(.*)'
-    ],
+  matcher: [
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/(api|trpc)(.*)',
+  ],
 };

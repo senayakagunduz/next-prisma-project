@@ -5,7 +5,7 @@ import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
 import FavoriteToggleButton from "./FavoriteToggleButton";
 
-function ProductsGrid({ products }: { products: Product[] }) {
+async function ProductsGrid({ products }: { products: Product[] }) {
   return (
     <div className="pt-2 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => {

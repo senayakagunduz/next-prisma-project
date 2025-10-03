@@ -5,7 +5,6 @@ import Navbar from "@/components/navbar/Navbar";
 import Container from "@/components/global/Container";
 import {ClerkProvider} from '@clerk/nextjs'
 import { siteMetadata } from "@/lib/siteMetadata";
-import { $ } from "@faker-js/faker/dist/airline-WjISwexU";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,14 +27,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // clerkProvider github ve google ile kullanınıcı girişi yapmayı sağlıyor, onunla tüm uygulamayı sarmalladım
-     <ClerkProvider>
-      <html lang="en">
+    // clerkProvider github ve google ile kullanıcı girişi yapmayı sağlıyor, onunla tüm uygulamayı sarmalladım
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          suppressHydrationWarning
         >
           <Navbar />
-          <Container className="py-20">{children}</Container>
+          <Container className="py-20">
+            {children}
+          </Container>
         </body>
       </html>
     </ClerkProvider>

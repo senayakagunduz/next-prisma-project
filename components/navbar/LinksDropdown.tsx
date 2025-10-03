@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   DropdownMenu,
@@ -12,12 +13,11 @@ import { Button } from "../ui/button";
 import { links } from "@/utils/links";
 import UserIcon from "./UserIcon";
 import SignOutLink from "./SignOutLink";
-import { auth } from "@clerk/nextjs/server";
-import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
 
 function LinksDropdown() {
-  const { userId } = auth();
-  const isAdmin = userId === process.env.ADMIN_USER_ID;
+  const { user } = useUser();
+  const isAdmin = user?.id === process.env.NEXT_PUBLIC_ADMIN_USER_ID;
   return (
     <DropdownMenu>
     <DropdownMenuTrigger asChild>

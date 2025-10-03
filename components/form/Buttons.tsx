@@ -41,3 +41,25 @@ export function SubmitButton({
     </Button>
   );
 }
+export const CardSignInButton = () => {
+  return (
+    <SignInButton>
+      <Button type="button" size="icon" className='p-2 cursor-pointer' variant="outline" asChild >
+        <FaRegHeart />
+        Sign In
+      </Button>
+    </SignInButton>
+  )
+}
+
+export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" disabled={pending} className='p-2 cursor-pointer' variant="outline" asChild >
+      {pending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> 
+      : 
+      isFavorite ? <FaHeart /> 
+      : <FaRegHeart />}
+    </Button>
+  )
+}
